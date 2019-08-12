@@ -13,18 +13,26 @@ class PostsController < ApplicationController
 	end
 
 	def create
-		post = Post.create(params[:post])
+		post = Post.create(posts_params)
 		redirect_to post_path(post)
 	end
 
 	def edit
 		@post = Post.find(params[:id])
 		@categories = Category.all
+		
 	end
 
 	def update
 		post = Post.find(params[:id])
-		post.update(params.require(:post))
+		post.update(posts_params)
 		redirect_to post_path(post)
 	end
+
+	private
+	
+	def posts_params
+		params.require(:post).permit(:title, :description, :post_status, :author_id, :category_id)
+	end
+
 end
